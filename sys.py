@@ -3,6 +3,8 @@ import twittermedia
 import urllib2
 import os
 
+class 
+
 def main():
 	try:
 		tw = twittermedia.TwitterMedia()
