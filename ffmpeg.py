@@ -5,9 +5,9 @@ import argparse
 import subprocess
 
 class ffmpeg:
-	def img2vid(self, directory, output):
+	def img2vid(self, directory, output, fps):
 		ffmpeg_options = {
-		'-framerate': '1',
+		'-framerate': fps,
 		'-i': os.path.join(directory, 'image-%04d.jpg'),
 		'-vf': 'scale=720:480'
 		}
