@@ -4,8 +4,11 @@ import twitter
 import wget
 
 class TwitterMedia:
-	def __init__(self):
-		self.api = twitter.Api()
+	def __init__(self, lconsumer_key, lconsumer_secret, laccess_token_key, laccess_token_secret):
+		self.api = twitter.Api(consumer_key=lconsumer_key,
+		consumer_secret=lconsumer_secret,
+		access_token_key=laccess_token_key,
+		access_token_secret=laccess_token_secret)
 
 	def FetchImages(self, feed, amt=-1):
 		statuses = self.api.GetUserTimeline(screen_name=feed, count=200)

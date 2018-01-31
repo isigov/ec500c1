@@ -5,15 +5,22 @@ import urllib2
 import os
 
 class TwitpicAPI:
+	def __init__(self, consumer_key, consumer_secret, access_token_key, access_token_secret, json_key):
+		self.lconsumer_key=consumer_key
+		self.lconsumer_secret=consumer_secret
+		self.laccess_token_key=access_token_key
+		self.laccess_token_secret=access_token_secret
+		self.ljson_key=json_key
+
 	def Aggregate(self, feed, count, download_location, video_location):
-		#url_list = self.TwitterGetList(feed, count)
-		#self.TwitterDownload(url_list, download_location)
-		#self.TwitterImage2Video(download_location, video_location)
-		self.TwitterAnalyzeImage(download_location)
+		url_list = self.TwitterGetList(feed, count)
+		self.TwitterDownload(url_list, download_location)
+		self.TwitterImage2Video(download_location, video_location)
+		return self.TwitterAnalyzeImage(download_location)
 
 	def TwitterGetList(self, feed, count):
 		try:
-			tw = twittermedia.TwitterMedia()
+			tw = twittermedia.TwitterMedia(self.lconsumer_key, self.lconsumer_secret, self.laccess_token_key, self.laccess_token_secret)
 			urls = tw.FetchImages(feed)
 			return urls
 		except:
@@ -50,12 +57,12 @@ class TwitpicAPI:
 			raise ValueError("Error converting images to video")
 
 	def TwitterAnalyzeImage(self, image_folder):
-		gg = vision_api.GoogleVisionWrapper()
-		#try:
-		for img_name in os.listdir(image_folder):
-			print gg.AnalyzeImage(os.path.join(image_folder, img_name))
-		#except:
-		#	raise ValueError("Error accessing image directory")
-
-t = TwitpicAPI()
-t.Aggregate("isigov95", -1, "/Users/illyasigov/Documents/GitHub/ec500c1/images/", "/Users/illyasigov/Documents/GitHub/ec500c1/mov.mp4")
+		gg = vision_api.GoogleVisionWrapper(self.ljson_key)
+		labels = []
+		try:
+			for img_name in os.listdir(image_folder):
+				if img_name.endswith(".jpg"):
+					labels.append([img_name, gg.AnalyzeImage(os.path.join(image_folder, img_name))])
+			return labels
+		except:
+			raise ValueError("Error accessing image directory")

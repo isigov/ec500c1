@@ -7,8 +7,8 @@ class GoogleVisionWrapper:
 
 	client = None
 
-	def __init__(self):
-		self.client = vision.ImageAnnotatorClient()
+	def __init__(self, json_key):
+		self.client = vision.ImageAnnotatorClient().from_service_account_json(json_key)
 
 	def AnalyzeImage(self, file_path):
 		with io.open(file_path, 'rb') as image_file:
