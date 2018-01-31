@@ -2,13 +2,15 @@ import io
 import os
 from google.cloud import vision
 from google.cloud.vision import types
+from google.oauth2 import service_account
 
 class GoogleVisionWrapper:
 
 	client = None
 
 	def __init__(self, json_key):
-		self.client = vision.ImageAnnotatorClient().from_service_account_json(json_key)
+		credentials = service_account.Credentials.from_service_account_file(json_key)
+		self.client = vision.ImageAnnotatorClient(credentials=credentials)
 
 	def AnalyzeImage(self, file_path):
 		with io.open(file_path, 'rb') as image_file:
