@@ -15,6 +15,7 @@ download_location=full path to folder where to save images
 <br/>
 video_location=full path to video file
 <br/>
-
+<br/>
+Returns list of lists containing name of image as first element and phrases contained in image for the rest of elements
 
 
