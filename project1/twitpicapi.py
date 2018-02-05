@@ -12,10 +12,10 @@ class TwitpicAPI:
 		self.laccess_token_secret=access_token_secret
 		self.ljson_key=json_key
 
-	def Aggregate(self, feed, count, download_location, video_location):
+	def Aggregate(self, feed, count, download_location, video_location, ffmpeg_location):
 		url_list = self.TwitterGetList(feed, count)
 		self.TwitterDownload(url_list, download_location)
-		self.TwitterImage2Video(download_location, video_location)
+		self.TwitterImage2Video(download_location, video_location, ffmpeg_location)
 		return self.TwitterAnalyzeImage(download_location)
 
 	def TwitterGetList(self, feed, count):
@@ -39,7 +39,7 @@ class TwitpicAPI:
 				continue
 
 			try:
-				with open(location + '/image-%04d.jpg' % counter, 'wb') as f:  
+				with open(os.path.join(location, 'image-%04d.jpg' % counter), 'wb') as f:  
 					f.write(datatowrite)
 			except:
 				raise ValueError("Error saving images")
@@ -47,9 +47,9 @@ class TwitpicAPI:
 
 			counter += 1
 
-	def TwitterImage2Video(self, image_folder, save_file, fps=1):
+	def TwitterImage2Video(self, image_folder, save_file, ffmpeg_location, fps=1):
 		ff = ffmpeg.ffmpeg()
-		ff.img2vid(image_folder, save_file, fps)
+		ff.img2vid(image_folder, save_file, fps, ffmpeg_location)
 		try:
 			if os.path.getsize(save_file) == 0:
 				raise ValueError("Error converting images to video")
