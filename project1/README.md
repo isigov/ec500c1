@@ -39,4 +39,6 @@ Call Aggregate function with arguments:
 
 * video_location=full path to video file
 
+* ffmpeg_location=path to ffmpeg 
+
 * Returns list of lists containing name of image as first element and phrases contained in image for the rest of elements
