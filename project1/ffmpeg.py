@@ -18,5 +18,5 @@ class ffmpeg:
 		command.append('-y')  # overwrite outputs
 		command.append(output)
 
-		print ' '.join(command)
+		print(' '.join(command))
 		subprocess.call(command)
